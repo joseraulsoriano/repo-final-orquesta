@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="MyEyesTalk (Puente): accesibilidad audio-first con Ray-Ban Meta Gen 2 para personas con discapacidad visual en México y LATAM." />
+  <title>MyEyesTalk — Puente · Platanus Hack 2026</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a1628'/%3E%3Ccircle cx='32' cy='28' r='10' fill='none' stroke='%2338bdf8' stroke-width='3'/%3E%3Cpath d='M16 48 Q32 36 48 48' fill='none' stroke='%2322d3ee' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #070b14;
+      --surface: #0f172a;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent2: #22d3ee;
+      --border: rgba(148, 163, 184, 0.18);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(56, 189, 248, 0.12), transparent),
+                  radial-gradient(900px 500px at 100% 0%, rgba(34, 211, 238, 0.08), transparent),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+    header { margin-bottom: 2.5rem; }
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: clamp(2rem, 5vw, 2.75rem);
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+    h1 span { color: var(--accent); }
+    .lead { font-size: 1.125rem; color: var(--muted); max-width: 52rem; }
+    .cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 1.75rem 0 2.5rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.1rem;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+    .btn:hover { transform: translateY(-1px); opacity: 0.92; }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #041018; }
+    .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+    section {
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    h2 { font-size: 1.15rem; margin-bottom: 0.75rem; color: #f8fafc; }
+    p, li { color: var(--muted); }
+    ul { padding-left: 1.2rem; margin-top: 0.5rem; }
+    li + li { margin-top: 0.35rem; }
+    pre {
+      margin-top: 0.75rem;
+      padding: 1rem;
+      border-radius: 12px;
+      background: #020617;
+      border: 1px solid var(--border);
+      overflow-x: auto;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: #cbd5e1;
+    }
+    table { width: 100%; border-collapse: collapse; margin-top: 0.75rem; font-size: 0.92rem; }
+    th, td { text-align: left; padding: 0.55rem 0.4rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { color: #f1f5f9; font-weight: 600; }
+    footer {
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <p class="badge">Platanus Hack 2026 · Crear Interfaces</p>
+      <h1><span>MyEyesTalk</span> — Puente</h1>
+      <p class="lead">
+        Plataforma de accesibilidad <strong>audio-first</strong> para personas con discapacidad visual
+        en México y LATAM, construida sobre <strong>Ray-Ban Meta Gen 2</strong>.
+        No sustituye los sentidos: <strong>devuelve agencia</strong> con narración espacial,
+        decisiones y acciones por voz en los altavoces de las gafas — sin pantalla ni HUD.
+      </p>
+      <div class="cta">
+        <a class="btn btn-primary" href="https://github.com/joseraulsoriano/repo-final-orquesta" target="_blank" rel="noopener noreferrer">Ver código en GitHub</a>
+        <a class="btn btn-secondary" href="https://hack.platan.us/26-ar/vote" target="_blank" rel="noopener noreferrer">Votar en Platanus</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>El problema</h2>
+      <p>
+        Las personas ciegas o con baja visión en LATAM dependen de bastón, perro guía o asistencia humana
+        para tareas cotidianas: navegar un supermercado, identificar productos o leer etiquetas.
+        Los asistentes genéricos (incluido Meta AI) no aprenden el entorno, no manejan una lista de compras,
+        no recuerdan marcas ni dan orientación espacial accionable en español mexicano.
+      </p>
+    </section>
+
+    <section>
+      <h2>La solución</h2>
+      <p>Un loop cognitivo en el teléfono; las gafas son cámara, micrófono y altavoz:</p>
+      <pre>Ray-Ban Meta Gen 2 (cámara + mic + speakers)
+   ↔ App iOS nativa (Swift + MWDAT)
+       ↔ Cloudflare Worker (visión + RAG + agente Hermes)
+           → TTS de vuelta a los altavoces de las gafas</pre>
+      <ol style="margin-top:0.75rem;padding-left:1.2rem;color:var(--muted);">
+        <li><strong>Push-to-talk / Modo Sentido</strong> — captura voz y frame POV.</li>
+        <li><strong>STT</strong> (AssemblyAI) → transcripción.</li>
+        <li><strong>RAG</strong> — si ya conoce el lugar, evita re-analizar.</li>
+        <li><strong>Visión</strong> (Claude) → SceneJSON / ProductJSON.</li>
+        <li><strong>Agente Hermes</strong> — alternativas, recall de lista.</li>
+        <li><strong>TTS</strong> (ElevenLabs) → altavoces de las gafas.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Módulos</h2>
+      <table>
+        <thead><tr><th>Módulo</th><th>Función</th></tr></thead>
+        <tbody>
+          <tr><td>Sentido</td><td>Orientación espacial egocéntrica (izquierda / derecha / adelante).</td></tr>
+          <tr><td>Super</td><td>Lista de compras + RAG del super + identificación de productos.</td></tr>
+          <tr><td>Cruce</td><td>Semáforos y tráfico vía YOLO local (eyesstreelighttalk).</td></tr>
+          <tr><td>Guía</td><td>Navegación asistida y preguntas contextuales.</td></tr>
+          <tr><td>Mac</td><td>Puente digital — comandos de voz al escritorio.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Diferenciador</h2>
+      <p>
+        A diferencia de un asistente genérico, MyEyesTalk habla en <strong>español mexicano egocéntrico</strong>,
+        <strong>aprende el entorno con RAG</strong>, mantiene lista y memoria con patrones tipo Hermes,
+        y demuestra un flujo real de persona ciega en supermercado (tres escenarios de visita).
+      </p>
+    </section>
+
+    <section>
+      <h2>Stack</h2>
+      <ul>
+        <li>Gafas: Ray-Ban Meta Gen 2 + DAT iOS (MWDAT)</li>
+        <li>App MVP: Swift nativo en <code>puente/apps/mobile-ios/</code></li>
+        <li>Backend: Cloudflare Worker (fusión, RAG, agente, TTS, STT)</li>
+        <li>Visión: Claude · STT: AssemblyAI · TTS: ElevenLabs</li>
+      </ul>
+    </section>
+
+    <footer>
+      <p><strong>Disclaimer:</strong> MyEyesTalk es apoyo complementario. No sustituye bastón, perro guía,
+      orientación y movilidad certificada ni servicios médicos.</p>
+      <p style="margin-top:0.5rem;">Demo en vivo: app iOS + gafas Gen 2 · Código abierto en GitHub.</p>
+    </footer>
+  </main>
+</body>
+</html>

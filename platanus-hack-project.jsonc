@@ -1,0 +1,13 @@
+{
+  // Nombre en la página de votación
+  "project-name": "MyEyesTalk",
+
+  // Resumen de una línea (español)
+  "project-oneliner-spanish": "Accesibilidad audio-first con Ray-Ban Meta Gen 2: narración espacial, lista de compras y guía por voz para personas con discapacidad visual en México y LATAM.",
+
+  // Descripción breve (español)
+  "project-description-spanish": "MyEyesTalk (Puente) devuelve agencia a personas con discapacidad visual usando Ray-Ban Meta Gen 2 (solo audio, sin pantalla). Traduce el POV de las gafas en narración espacial y acciones por voz. App iOS Swift + MWDAT → Cloudflare Worker (visión Claude, RAG, agente Hermes, ElevenLabs TTS). Demo en supermercado en español mexicano.",
+
+  // URL pública del proyecto — ACTUALIZAR tras: cd web && npx vercel --prod
+  "deploy-url": "https://web-seven-silk-77.vercel.app"
+}
