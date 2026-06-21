@@ -24,7 +24,7 @@ Marcar en orden. Bloqueantes antes de demo jurado.
 - [ ] Firmware gafas actualizado
 - [ ] **Developer Mode** ON (Meta AI → Settings → Developer)
 - [ ] Permiso cámara gafas concedido (deeplink desde app DAT)
-- [ ] Teléfono Android 10+ o iOS 16+ (`mobile-rn`)
+- [ ] iPhone iOS 16+ con Xcode (`mobile-ios`)
 - [ ] Cable USB para deploy + logs
 
 ---
@@ -67,29 +67,25 @@ Anotar URL: `https://________.workers.dev`
 
 ---
 
-## Fase 3 — App móvil MVP (`mobile-rn`)
+## Fase 3 — App móvil MVP (`mobile-ios`)
 
-**Decisión:** Expo + DAT es el camino MVP. Kotlin en `apps/mobile/` es referencia.
+**Decisión:** Swift + MWDAT nativo es el camino MVP. Kotlin en `apps/mobile/` es referencia.
 
 ```bash
-cd puente/apps/mobile-rn
-cp .env.example .env
-# EXPO_PUBLIC_WORKER_BASE_URL, EXPO_PUBLIC_META_APP_ID, EXPO_PUBLIC_META_CLIENT_TOKEN
-npm install
-npx expo prebuild   # solo si regeneras nativo; cuidado duplicados MWDAT en iOS
-npm run android     # o ios — dispositivo físico recomendado para DAT
+cd puente/apps/mobile-ios
+cp Config/Secrets.xcconfig.example Config/Secrets.xcconfig
+# PUENTE_WORKER_BASE_URL, META_APP_ID, CLIENT_TOKEN, PUENTE_CROSSING_WS_URL
+./setup.sh
+open Puente.xcodeproj
 ```
 
-- [x] SuperFlow + WorkerClient implementados
-- [x] PTT hold/release (`onPressIn` / `onPressOut`)
-- [x] DAT: `configure()` + `EMWDATStreamView` + deep link `handleUrl`
+- [x] SuperFlow + WorkerClient + ModuleRouter (super, cruce, guía, mac)
+- [x] DAT: `DatGlassesBridge` + stream + reconexión en background
 - [ ] TTS → **audio sale por gafas** (verificar BT HFP)
-- [ ] PTT → STT → fusion → TTS loop en hardware
+- [ ] PTT / mic en vivo → STT → fusion → TTS loop en hardware
 - [ ] Sesión Gen 2 ≥5 min sin crash
 
-Mock sin gafas:
-
-- [ ] `EXPO_PUBLIC_MOCK_VIDEO_URI` + MockDeviceKit (mp4 HEVC en Android)
+Mock sin gafas: usar simulador solo para UI; DAT requiere iPhone físico + gafas.
 
 ---
 
@@ -166,12 +162,12 @@ Una sesión DAT; cambia de módulo por voz o en Gestor de sesión DAT.
 | `WORKER_API_KEY` | Worker secret (opcional) | Auth `x-puente-key` |
 | `VISION_MODEL` | Worker secret (opcional) | Default `claude-sonnet-4-6` |
 | `HERMES_MODEL` | Worker secret (opcional) | Default `claude-haiku-4-5` |
-| `EXPO_PUBLIC_WORKER_BASE_URL` | mobile-rn `.env` | URL worker |
-| `EXPO_PUBLIC_META_APP_ID` | mobile-rn `.env` | DAT Meta |
-| `EXPO_PUBLIC_META_CLIENT_TOKEN` | mobile-rn `.env` | DAT Meta |
-| `EXPO_PUBLIC_WORKER_API_KEY` | mobile-rn `.env` | Si worker tiene auth |
-| `EXPO_PUBLIC_CROSSING_WS_URL` | mobile-rn `.env` | WS eyesstreelighttalk |
-| `EXPO_PUBLIC_COMMAND_BASE_URL` | mobile-rn `.env` | myeyescantalk Mac |
+| `PUENTE_WORKER_BASE_URL` | `Secrets.xcconfig` | URL worker |
+| `META_APP_ID` | `Secrets.xcconfig` | DAT Meta |
+| `CLIENT_TOKEN` | `Secrets.xcconfig` | DAT Meta |
+| `PUENTE_WORKER_API_KEY` | `Secrets.xcconfig` | Si worker tiene auth |
+| `PUENTE_CROSSING_WS_URL` | `Secrets.xcconfig` | WS eyesstreelighttalk |
+| `PUENTE_COMMAND_BASE_URL` | `Secrets.xcconfig` | myeyescantalk Mac |
 | `GITHUB_TOKEN` | Kotlin local.properties | Gradle DAT deps |
 
 ---
@@ -179,6 +175,6 @@ Una sesión DAT; cambia de módulo por voz o en Gestor de sesión DAT.
 ## Orden recomendado
 
 1. Worker `wrangler dev` + [E2E_VERIFICATION.md](./E2E_VERIFICATION.md)
-2. `mobile-rn` `.env` + dispositivo físico
+2. `mobile-ios` `Secrets.xcconfig` + iPhone físico
 3. Verificar TTS por gafas
 4. Demo 3 escenarios con `visita_numero` 1 vs 2

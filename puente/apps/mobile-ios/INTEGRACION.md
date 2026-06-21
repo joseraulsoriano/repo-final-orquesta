@@ -61,7 +61,7 @@ mobile-ios/
 └── Puente/
     ├── PuenteApp.swift
     ├── Dat/DatGlassesBridge.swift   ← Meta SDK 0.7 directo
-    ├── Core/SuperFlow.swift         ← mismo loop que mobile-rn
+    ├── Core/SuperFlow.swift         ← loop principal Puente
     └── Net/WorkerClient.swift
 ```
 
@@ -69,12 +69,11 @@ mobile-ios/
 
 En `PuenteViewModel`, `useMockDevice = true` activa MockDeviceKit (solo builds Debug).
 
-## vs mobile-rn
+## Build
 
-| | mobile-rn | mobile-ios |
-|---|-----------|------------|
-| Metro :8081 | Sí (Debug) | **No** |
-| Meta DAT | expo wrapper | SDK nativo |
-| Compilar teléfono | expo run:ios + Metro | Xcode ⌘R |
+| | mobile-ios |
+|---|------------|
+| Meta DAT | SDK nativo MWDAT 0.7 |
+| Compilar teléfono | Xcode ⌘R (iPhone físico) |
 
 Doc Meta local: `puente/mcp-meta/docsMeeta/ios_integration.md`

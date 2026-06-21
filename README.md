@@ -51,8 +51,8 @@ puente/
 ├── CHECKLIST.md           ← setup paso a paso
 ├── E2E_VERIFICATION.md    ← pruebas curl/runtime
 ├── backend/worker/        ← Cloudflare Worker (7 rutas)
-├── apps/mobile-rn/        ← **MVP** Expo + DAT
-├── apps/mobile/           ← Kotlin referencia
+├── apps/mobile-ios/       ← **MVP demo** Swift + MWDAT (activo)
+├── apps/mobile/           ← Kotlin DAT (referencia / fallback)
 ├── shared/prompts/        ← prompts ES-MX
 └── shared/types/          ← JSON schemas
 ```
@@ -73,9 +73,8 @@ Código legacy reutilizable: `/Users/chasse/hack` (M1 GlassesView, orchestrator,
 
 | Capa | Tecnología |
 |------|------------|
-| Gafas | Ray-Ban Meta Gen 2 + DAT Android 0.7 |
-| App | Kotlin — sample `CameraAccess` (referencia) |
-| App MVP | **Expo `mobile-rn`** + `expo-meta-wearables-dat` |
+| Gafas | Ray-Ban Meta Gen 2 + DAT iOS (MWDAT) |
+| App MVP | **`apps/mobile-ios/`** Swift nativo + MWDAT |
 | Backend | Cloudflare Worker + rutas fusion/RAG |
 | Visión | Claude / GPT-4o mini → SceneJSON / ProductJSON |
 | STT | AssemblyAI vía worker |

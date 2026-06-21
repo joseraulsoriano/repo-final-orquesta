@@ -17,7 +17,7 @@ Lee este archivo antes de implementar. Es la fuente de verdad del proyecto.
 | Tiene el equipo | No tiene (backlog) |
 |-----------------|------------------|
 | Ray-Ban Meta **Gen 2** | Ray-Ban Display / HUD |
-| Android teléfono | iOS (fase 2) |
+| iPhone iOS 16+ (MWDAT) | Android Expo (retirado) |
 
 ### Salida al usuario Gen 2
 
@@ -28,7 +28,7 @@ Lee este archivo antes de implementar. Es la fuente de verdad del proyecto.
 ## 2. Arquitectura (no negociable)
 
 ```
-Gen 2 ──DAT BT──► App Android (teléfono) ──HTTPS──► Cloudflare Worker
+Gen 2 ──DAT BT──► App iOS (Swift + MWDAT) ──HTTPS──► Cloudflare Worker
                                                       ├─ /fusion/describe
                                                       ├─ /rag/query
                                                       ├─ /agents/super
@@ -58,7 +58,7 @@ hackplatanus/
 │   ├── CLAUDE.md          ← este archivo
 │   ├── CHECKLIST.md
 │   ├── backend/worker/    ← Cloudflare Worker (7 rutas)
-│   ├── apps/mobile-rn/    ← **MVP demo** Expo + DAT (activo)
+│   ├── apps/mobile-ios/   ← **MVP demo** Swift + MWDAT (activo)
 │   ├── apps/mobile/       ← Kotlin DAT (referencia / fallback)
 │   └── shared/
 │       ├── prompts/       ← system prompts ES-MX
@@ -72,18 +72,16 @@ hackplatanus/
 
 ---
 
-## 3.1 Decisión MVP app móvil (2025-06)
+## 3.1 Decisión MVP app móvil (2026-06)
 
 | App | Rol | Estado |
 |-----|-----|--------|
-| **`apps/mobile-rn/`** | **MVP hackathon** — Expo 52 + `expo-meta-wearables-dat` | SuperFlow completo, prebuild iOS/Android |
+| **`apps/mobile-ios/`** | **MVP hackathon** — Swift + MWDAT nativo | SuperFlow, cruce, guía, Mac |
 | **`apps/mobile/`** | Referencia Kotlin (CameraAccess fork) | Scaffold; hardware TODO |
 
-**Regla para agentes:** implementar features nuevas en `mobile-rn` salvo que el usuario pida Kotlin explícitamente. No duplicar SuperFlow en ambos stacks.
+**Regla para agentes:** implementar features nuevas en `mobile-ios`. No reintroducir Expo/RN ni duplicar SuperFlow en Kotlin salvo petición explícita.
 
-Config: `app.config.ts` + `.env` (`EXPO_PUBLIC_*`). Ver `.env.example`.
-
-**iOS prebuild:** no ejecutar `expo prebuild` repetidamente — duplica fase "Embed MWDAT Frameworks" en Xcode.
+Config: `Config/Secrets.xcconfig` (copiar desde `.example`). Ver `INTEGRACION.md`.
 
 ---
 
@@ -354,6 +352,6 @@ Puente: egocéntrico ES-MX · RAG aprende el super · Hermes lista/recall · con
 
 ```text
 Revisa puente/CHECKLIST.md y puente/E2E_VERIFICATION.md.
-Siguiente: conectar mobile-rn a worker deploy + probar PTT en gafas físicas.
+Siguiente: conectar mobile-ios a worker deploy + probar PTT en gafas físicas.
 No reimplementes /fusion — ya existe en worker.
 ```

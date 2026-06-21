@@ -1,6 +1,6 @@
 # Mobile Kotlin — referencia DAT (no MVP activo)
 
-Scaffold Android con SuperFlow espejo de `mobile-rn`. **MVP hackathon:** usar [`../mobile-rn/`](../mobile-rn/) (Expo + `expo-meta-wearables-dat`).
+Scaffold Android con SuperFlow espejo histórico. **MVP hackathon:** usar [`../mobile-ios/`](../mobile-ios/) (Swift + MWDAT).
 
 ## Estado
 

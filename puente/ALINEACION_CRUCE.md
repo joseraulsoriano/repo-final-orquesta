@@ -19,16 +19,16 @@ Repos:
 | Cómputo | **Local/edge** (YOLO por frame, ~0.8 s `full@608`) | **Nube** (visión Claude batch, RAG, Hermes) |
 | Latencia | crítica, decisión ≥2/seg, alerta <2 s | PTT→TTS ≤8 s, alerta <2 s |
 | Salida | `JSON-line {verdict,message,light,reasons,counts}` + voz/tono | `{speech, structured, spatial_tags, alert, module}` + TTS |
-| Estado glasses | `MetaGlassesAudioSink` = **stub** | App `mobile-rn` (Expo + DAT) con SuperFlow; falta **módulo cruce + fan-out** |
+| Estado glasses | `MetaGlassesAudioSink` = **stub** | App `mobile-ios` (Swift + MWDAT) con SuperFlow + módulo cruce |
 
-**Decisión de integración (elegida):** mantener eyesstreelighttalk como **servicio Python aparte en la LAN**. No se reescribe el CV; conserva latencia <2 s; la app `mobile-rn` (Expo + DAT) le relaya frames por WebSocket. El cruce pasa a ser **un módulo más** de la plataforma modular de Puente, junto al SuperFlow ya existente.
+**Decisión de integración (elegida):** mantener eyesstreelighttalk como **servicio Python aparte en la LAN**. No se reescribe el CV; conserva latencia <2 s; la app `mobile-ios` le relaya frames por WebSocket. El cruce es **un módulo más** de la plataforma modular de Puente, junto al SuperFlow.
 
 ---
 
 ## 2. Blockers de Gen 2 / DAT (lo que ambos deben respetar)
 
-1. **Gen 2 NO expone RTSP.** El `--source rtsp://IP/stream` del README de eyesstreelighttalk **no aplica** a Gen 2. La única vía sancionada para sacar frames es **DAT sobre Bluetooth en Android** (JPEG downstream, fps limitado). → eyesstreelighttalk recibe frames por **WebSocket** desde la app Android, no por RTSP.
-2. **Una sola sesión DAT activa** (`puente/CLAUDE.md` §2). No se puede correr el YOLO de Python *y* Puente agarrando frames de las gafas a la vez. **La app Android es la única dueña de la sesión** y enruta frames al módulo activo.
+1. **Gen 2 NO expone RTSP.** El `--source rtsp://IP/stream` del README de eyesstreelighttalk **no aplica** a Gen 2. La única vía sancionada para sacar frames es **DAT sobre Bluetooth en iOS** (JPEG downstream, fps limitado). → eyesstreelighttalk recibe frames por **WebSocket** desde la app iOS, no por RTSP.
+2. **Una sola sesión DAT activa** (`puente/CLAUDE.md` §2). **La app iOS es la única dueña de la sesión** y enruta frames al módulo activo.
 3. **Gen 2 es solo audio** (sin HUD). Los overlays/`cv2.imshow` de eyesstreelighttalk son **solo debug de escritorio**. En gafas reales sobreviven únicamente `speak()` (TTS) y `play_tone()` (PCM). No construir HUD en el MVP.
 4. **Cámara solo downstream**, no interceptar "Hey Meta", Meta AI app = conductor BT obligatorio.
 
@@ -38,7 +38,7 @@ Repos:
 
 ```
                          ┌─ módulo SÚPER  → Cloudflare Worker  (Claude · RAG · Hermes)
-Gen 2 ──DAT/BT──► mobile-rn ──┤   POST /fusion/describe, /rag/query, /agents/super, /gemini/live-token
+Gen 2 ──DAT/BT──► mobile-ios ──┤   POST /fusion/describe, /rag/query, /agents/super, /gemini/live-token
  (1 sesión:                    │
   cam+mic+altavoz)             └─ módulo CRUCE → eyesstreelighttalk (laptop LAN, YOLO)
                                │      WS frames JPEG ──►  ◄── verdict (contrato Puente)
@@ -138,7 +138,7 @@ Pre-requisito: gafas emparejadas en la Meta AI app + **Developer Mode activado**
    python -m src.ws_bridge --host 0.0.0.0 --port 8765   # recibe frames, devuelve contrato Puente
    ```
 3. **Validar el contrato sin gafas** (mientras se arma la app): mandar un JPEG por WS y confirmar que vuelve `{speech, structured, spatial_tags, alert, module:"cruce"}`.
-4. **App `mobile-rn` (Expo + DAT)**: una sola sesión DAT; switch de módulo Súper/Cruce; fan-out de frames; ejecutar `speak`/tono del contrato por el altavoz de las gafas.
+4. **App `mobile-ios` (Swift + MWDAT)**: una sola sesión DAT; switch de módulo Súper/Cruce; fan-out de frames; ejecutar `speak`/tono del contrato por el altavoz de las gafas.
 5. **E2E con gafas**: caminar a un cruce → la app manda frames al servicio → veredicto → voz+tono+vibración en <2 s.
 
 SLA objetivo del cruce: alerta **<2 s** total (`puente/CLAUDE.md` §11).
@@ -157,7 +157,7 @@ SLA objetivo del cruce: alerta **<2 s** total (`puente/CLAUDE.md` §11).
 
 ## 9. Pendientes / próximos pasos
 
-1. Módulo cruce en `mobile-rn`: switch de módulo + fan-out de frames del DAT al servicio WS + ejecutar `speak`/tono del contrato.
+1. Módulo cruce en `mobile-ios`: switch de módulo + fan-out de frames del DAT al servicio WS + ejecutar `speak`/tono del contrato. **Hecho.**
 2. Derivar `[SPATIAL:...]` real desde la dirección del tracker en `puente_contract.py`.
 3. Que `GeminiLiveBridge` consuma el token de `/gemini/live-token` en vez de `GOOGLE_API_KEY` local.
 4. Calibrar zona de cruce y umbrales con video real de las gafas (fps de DAT, no de webcam).
