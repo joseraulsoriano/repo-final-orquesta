@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+
+	<!-- Launch screen vacío: evita el modo letterbox en pantallas modernas. -->
+	<key>UILaunchScreen</key>
+	<dict/>
+
+	<!-- Descripciones de uso de datos sensibles. Obligatorias: sin ellas iOS
+	     mata la app al primer acceso (micrófono, cámara, etc.). -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Puente usa el micrófono de las gafas para escuchar tus preguntas.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Puente usa la cámara de las gafas Ray-Ban Meta para describir el entorno.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Puente se conecta a tus gafas Ray-Ban Meta por Bluetooth.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Puente se conecta al servidor Puente en tu Mac para visión y voz.</string>
+
+	<!-- Config de runtime: puenteamos los valores de Config/Secrets.xcconfig al
+	     bundle para que AppConfig los lea. SIN estas claves, AppConfig cae al
+	     fallback hardcodeado (IP vieja) y el worker/comandos quedan inalcanzables. -->
+	<key>PuenteWorkerBaseURL</key>
+	<string>$(PUENTE_WORKER_BASE_URL)</string>
+	<key>PuenteCommandBaseURL</key>
+	<string>$(PUENTE_COMMAND_BASE_URL)</string>
+	<key>PuenteCrossingWSURL</key>
+	<string>$(PUENTE_CROSSING_WS_URL)</string>
+	<key>PuenteWorkerAPIKey</key>
+	<string>$(PUENTE_WORKER_API_KEY)</string>
+	<key>PuenteCommandToken</key>
+	<string>$(PUENTE_COMMAND_TOKEN)</string>
+
+	<!-- ATS: permitir HTTP cleartext SOLO a la LAN (worker :8787, comandos :8788,
+	     cruce :8765 en IPs privadas). Necesario en dev sin TLS. -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+
+	<!-- Meta AI llama de vuelta a Puente durante el registro DAT.
+	     Debe coincidir con MWDAT > AppLinkURLScheme y con el deep link puente:// del app. -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>puente</string>
+			</array>
+		</dict>
+	</array>
+
+	<!-- Configuración Wearables Device Access Toolkit (valores en Config/Secrets.xcconfig). -->
+	<key>MWDAT</key>
+	<dict>
+		<key>AppLinkURLScheme</key>
+		<string>puente://</string>
+		<key>MetaAppID</key>
+		<string>$(META_APP_ID)</string>
+		<key>ClientToken</key>
+		<string>$(CLIENT_TOKEN)</string>
+		<key>TeamID</key>
+		<string>$(DEVELOPMENT_TEAM)</string>
+		<key>DAMEnabled</key>
+		<true/>
+	</dict>
+
+	<!-- Protocolo External Accessory de las gafas Meta.
+	     SIN esta clave iOS bloquea el canal EA y el enlace queda link=disconnected. -->
+	<key>UISupportedExternalAccessoryProtocols</key>
+	<array>
+		<string>com.meta.ar.wearable</string>
+	</array>
+
+	<!-- Mantener vivo el enlace EA/BT con las gafas en segundo plano. -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-peripheral</string>
+		<string>external-accessory</string>
+	</array>
+</dict>
+</plist>

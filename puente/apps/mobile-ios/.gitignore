@@ -1,0 +1,5 @@
+Config/Secrets.xcconfig
+Puente.xcodeproj/
+DerivedData/
+*.xcuserstate
+xcuserdata/

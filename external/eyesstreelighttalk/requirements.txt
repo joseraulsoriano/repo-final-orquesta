@@ -1,0 +1,7 @@
+# Vision / inferencia (CPU). headless = sin GUI, imagen mas liviana.
+opencv-python-headless==4.10.0.84
+websockets>=12.0
+
+# Opcional: integracion con Gemini Live (transporte/voz de las gafas).
+#   pip install google-genai   (requiere GOOGLE_API_KEY)
+# google-genai>=1.0.0

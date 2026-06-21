@@ -1,0 +1,66 @@
+name: Puente
+options:
+  bundleIdPrefix: ai.puente
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+
+packages:
+  MetaWearablesDAT:
+    url: https://github.com/facebook/meta-wearables-dat-ios
+    from: "0.7.0"
+
+configs:
+  Debug: debug
+  Release: release
+
+configFiles:
+  Debug: Config/Secrets.xcconfig
+  Release: Config/Secrets.xcconfig
+
+targets:
+  Puente:
+    type: application
+    platform: iOS
+    sources:
+      - path: Puente
+        excludes:
+          - "**/.DS_Store"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: ai.puente.app
+        PRODUCT_NAME: Puente
+        SWIFT_VERSION: "5.9"
+        TARGETED_DEVICE_FAMILY: "1"
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: 82LLK72ZPK
+        # Usamos un Info.plist escrito a mano (descripciones de uso, MWDAT, EA, deep link).
+        # Apuntamos con INFOPLIST_FILE en vez de la clave `info:` para que XcodeGen
+        # NO regenere/sobrescriba el archivo. Las claves van TODAS en Puente/Info.plist.
+        INFOPLIST_FILE: Puente/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+    dependencies:
+      - package: MetaWearablesDAT
+        product: MWDATCore
+      - package: MetaWearablesDAT
+        product: MWDATCamera
+      - package: MetaWearablesDAT
+        product: MWDATMockDevice
+
+schemes:
+  Puente:
+    build:
+      targets:
+        Puente: all
+    run:
+      config: Debug
+      environmentVariables:
+        IDEPreferLogStreaming: YES
+    test:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release

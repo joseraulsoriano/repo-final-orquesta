@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+.venv/
+env/
+venv/
+ENV/
+bin/
+lib/
+share/
+include/
+
+# IDE and general files
+.DS_Store
+.vscode/
+.idea/
+*.log
+*.tmp
+*.temp
+
+# Xcode and iOS specific
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/
+.orange/
+*.moved-aside
+*.ipa
+*.dSYM/
+*.o
+*.a
+*.framework
+
+# System files
+.apdisk
+Thumbs.db

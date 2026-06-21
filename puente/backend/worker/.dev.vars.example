@@ -1,0 +1,11 @@
+# Completar con tus keys — no commitear este archivo con valores reales
+ANTHROPIC_API_KEY=
+ASSEMBLYAI_API_KEY=
+ELEVENLABS_API_KEY=
+ELEVENLABS_VOICE_ID=EXAVITQu4vr4xnSDxMaL
+
+# Opcional
+# WORKER_API_KEY=
+# GEMINI_API_KEY=
+# VISION_MODEL=claude-sonnet-4-6
+# HERMES_MODEL=claude-haiku-4-5

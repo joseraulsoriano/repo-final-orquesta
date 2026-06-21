@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- ============================================================= -->
+	<!-- Identidad estandar de la app (la toma de los build settings)   -->
+	<!-- ============================================================= -->
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+
+	<!-- ============================================================= -->
+	<!-- URL scheme para el callback de Meta AI.                        -->
+	<!-- DEBE coincidir con MWDAT > AppLinkURLScheme (sin el "://").     -->
+	<!-- ============================================================= -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>platanu</string>
+			</array>
+		</dict>
+	</array>
+
+	<!-- ============================================================= -->
+	<!-- Permite a la app deeplink / abrir la app Meta AI (registro).   -->
+	<!-- Sin esto, canOpenURL falla y el registro no regresa a tu app.  -->
+	<!-- ============================================================= -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fb-viewapp</string>
+	</array>
+
+	<!-- ============================================================= -->
+	<!-- Wearables Device Access Toolkit (gafas Meta Ray-Ban)          -->
+	<!-- ============================================================= -->
+	<key>MWDAT</key>
+	<dict>
+		<!-- URL scheme propio (NO es un universal link). DEBE ser identico al de
+		     CFBundleURLSchemes de arriba: aqui "platanu://" <-> alla "platanu".
+		     Si cambias uno, cambia el otro y vuelve a registrar en Meta View. -->
+		<key>AppLinkURLScheme</key>
+		<string>platanu://</string>
+
+		<key>MetaAppID</key>
+		<string>1281969673720874</string>
+
+		<key>ClientToken</key>
+		<string>AR|1281969673720874|8448e8d74d5f4da6202dea8d321236c6</string>
+
+		<!-- Toma el Team de Xcode > Signing & Capabilities. Hoy resuelve a 82LLK72ZPK
+		     (el team con el que la app firma y corre). En Dev Mode el attestation se
+		     salta (attestationValidated=skipped), asi que este valor NO bloquea ahora.
+		     Para DISTRIBUIR debe ser el mismo Apple Team dueno del Meta App ID
+		     1281969673720874 en el Wearables Developer Center. -->
+		<key>TeamID</key>
+		<string>$(DEVELOPMENT_TEAM)</string>
+
+		<key>DAMEnabled</key>
+		<true/>
+	</dict>
+
+	<!-- ============================================================= -->
+	<!-- External Accessory: protocolo de las gafas Meta               -->
+	<!-- ============================================================= -->
+	<key>UISupportedExternalAccessoryProtocols</key>
+	<array>
+		<string>com.meta.ar.wearable</string>
+	</array>
+
+	<!-- ============================================================= -->
+	<!-- Background modes (Bluetooth + accesorio externo)              -->
+	<!-- ============================================================= -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-peripheral</string>
+		<string>external-accessory</string>
+	</array>
+
+	<!-- ============================================================= -->
+	<!-- Permisos que EXIGE tu codigo Swift (sin estos crashea/no conecta) -->
+	<!-- ============================================================= -->
+	<!-- MetaGlassesManager.swift -> AVAudioApplication.requestRecordPermission()
+	     SIN esta clave la app CRASHEA al pedir el microfono -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Aaron usa el microfono de tus gafas para escuchar tus comandos de voz.</string>
+
+	<!-- MetaGlassesManager.swift -> SFSpeechRecognizer.requestAuthorization()
+	     SIN esta clave la app CRASHEA al pedir reconocimiento de voz (este fue el crash) -->
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Aaron transcribe tu voz localmente para entender tus comandos.</string>
+
+	<!-- Audio HFP / conexion Bluetooth con las gafas -->
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Aaron se conecta por Bluetooth a tus gafas Meta Ray-Ban.</string>
+
+	<!-- MWDATCamera -> stream de video de las gafas -->
+	<key>NSCameraUsageDescription</key>
+	<string>Aaron usa la camara de tus gafas para describir tu entorno.</string>
+
+	<!-- StreamingClient.swift -> ws://<ip-de-tu-Mac>:8000 en la red local -->
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Aaron se conecta al servidor en tu Mac dentro de tu red local.</string>
+
+	<!-- ============================================================= -->
+	<!-- ATS: permite ws:// en texto plano.                            -->
+	<!-- StreamingClient usa ws:// (no wss://); sin esto ATS lo bloquea. -->
+	<!-- ============================================================= -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+
+	<!-- ============================================================= -->
+	<!-- Boilerplate de UI                                             -->
+	<!-- ============================================================= -->
+	<key>UILaunchScreen</key>
+	<dict/>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<true/>
+		<key>UISceneConfigurations</key>
+		<dict/>
+	</dict>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+</dict>
+</plist>

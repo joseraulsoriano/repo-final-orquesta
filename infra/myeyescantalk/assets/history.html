@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Historial</title>
+<style>
+  :root{
+    --bg:#15130f;          /* warm charcoal, not pure black */
+    --bg-soft:#211e19;     /* user bubble fill */
+    --ink:#eceae4;         /* primary text */
+    --ink-dim:#928c80;     /* secondary text */
+    --ink-faint:#6a655b;   /* labels / timestamps */
+    --accent:#df7536;      /* desaturated orange, used sparingly */
+    --hair:rgba(236,234,228,.08);
+    --sans:"Avenir Next","Helvetica Neue",-apple-system,sans-serif;
+    --mono:"SF Mono","Menlo",ui-monospace,monospace;
+  }
+  @media (prefers-reduced-motion:reduce){ *{animation:none!important} }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:var(--sans); font-size:15px;
+    display:flex; flex-direction:column; overflow:hidden;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+
+  header{
+    flex:none; -webkit-app-region:drag;
+    padding:40px 30px 18px; border-bottom:1px solid var(--hair);
+    display:flex; align-items:baseline; justify-content:space-between;
+  }
+  .title{ display:flex; flex-direction:column; gap:6px; }
+  .over{ font-family:var(--mono); font-size:9.5px; letter-spacing:.26em;
+    text-transform:uppercase; color:var(--ink-faint); }
+  h1{ margin:0; font-size:19px; font-weight:600; letter-spacing:-.01em; color:var(--ink); }
+  .count{ font-family:var(--mono); font-size:11px; color:var(--ink-faint); letter-spacing:.04em; }
+
+  main{ flex:1; overflow-y:auto; padding:26px 30px 36px; }
+  main::-webkit-scrollbar{width:10px}
+  main::-webkit-scrollbar-thumb{ background:var(--hair); border-radius:20px;
+    border:3px solid transparent; background-clip:content-box; }
+  main::-webkit-scrollbar-thumb:hover{ background:rgba(223,117,54,.4); background-clip:content-box; }
+
+  .turn{ margin-bottom:26px; display:flex; flex-direction:column;
+    animation:fade .4s ease both; }
+  .turn.user{ align-items:flex-end; }
+  @keyframes fade{ from{opacity:0; transform:translateY(6px)} to{opacity:1;transform:none} }
+
+  .meta{ font-family:var(--mono); font-size:9.5px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--ink-faint); margin-bottom:7px;
+    display:flex; gap:9px; align-items:center; }
+  .turn.user .meta{ flex-direction:row-reverse; }
+  .who{ color:var(--ink-dim); }
+  .turn.assistant .who{ color:var(--accent); }
+  .meta time{ color:var(--ink-faint); }
+
+  .text{ line-height:1.62; white-space:pre-wrap; word-wrap:break-word; }
+  .turn.assistant .text{
+    max-width:82%; padding-left:15px; border-left:2px solid var(--accent);
+    color:var(--ink);
+  }
+  .turn.user .text{
+    max-width:78%; padding:11px 15px; background:var(--bg-soft);
+    border-radius:15px 15px 4px 15px; color:var(--ink);
+  }
+
+  .empty{ height:100%; display:flex; align-items:center; justify-content:center; }
+  .empty span{ font-family:var(--mono); font-size:11px; letter-spacing:.1em;
+    color:var(--ink-faint); }
+</style>
+</head>
+<body>
+  <header>
+    <div class="title">
+      <span class="over">Mis ojos pueden hablar</span>
+      <h1>Historial</h1>
+    </div>
+    <span class="count" id="count"></span>
+  </header>
+  <main id="list"></main>
+
+  <script>
+    const list = document.getElementById('list');
+    const count = document.getElementById('count');
+    let shown = 0;
+
+    function emptyState(){
+      list.innerHTML = '<div class="empty"><span>todavía no han hablado</span></div>';
+      count.textContent = '';
+    }
+    function fmt(ts){ const d=new Date(ts||Date.now());
+      return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0'); }
+
+    function append(m){
+      const turn=document.createElement('div');
+      turn.className='turn '+(m.role==='user'?'user':'assistant');
+      const meta=document.createElement('div'); meta.className='meta';
+      const who=m.role==='user'?'Tú':'Catalina';
+      meta.innerHTML='<span class="who">'+who+'</span><time>'+fmt(m.ts)+'</time>';
+      const text=document.createElement('div'); text.className='text'; text.textContent=m.text;
+      turn.appendChild(meta); turn.appendChild(text); list.appendChild(turn);
+    }
+
+    function apply(items){
+      items = items || [];
+      if(items.length < shown){ list.innerHTML=''; shown=0; }   // history was cleared
+      if(items.length === 0){ emptyState(); shown=0; return; }
+      if(shown === 0) list.innerHTML='';
+      for(let i=shown;i<items.length;i++) append(items[i]);
+      shown = items.length;
+      count.textContent = shown + (shown===1?' mensaje':' mensajes');
+      list.scrollTop = list.scrollHeight;
+    }
+
+    emptyState();
+    window.mect.getHistory().then(apply);
+    window.mect.onHistoryUpdate(apply);
+  </script>
+</body>
+</html>

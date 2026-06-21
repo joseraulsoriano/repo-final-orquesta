@@ -1,0 +1,71 @@
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+.cursor/
+.claude/
+
+# Secrets — NUNCA commitear
+.env
+.env.local
+.env.*.local
+.dev.vars
+*.pem
+*.p8
+*.p12
+*.mobileprovision
+*.jks
+credentials.json
+**/Config/Secrets.xcconfig
+
+# Node / JS
+node_modules/
+npm-debug.*
+yarn-error.*
+*.log
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+.metro-health-check*
+
+# Cloudflare Worker local
+.wrangler/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# iOS / Xcode
+DerivedData/
+*.xcuserstate
+xcuserdata/
+ios/Pods/
+ios/build/
+ios/.xcode.env.local
+**/Puente.xcodeproj/
+
+# Android
+android/build/
+android/app/build/
+android/.gradle/
+android/.cxx/
+android/local.properties
+*.jsbundle
+
+# YOLO weights (descargar con scripts/download_models.sh)
+external/eyesstreelighttalk/models/*.weights
+external/eyesstreelighttalk/models/*.cfg
+aaron_repo/**/models/*.weights
+aaron_repo/**/models/*.cfg
+
+# Build / cache
+*.orig.*
+output/
+/tmp/
